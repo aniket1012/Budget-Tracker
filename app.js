@@ -2,8 +2,25 @@
  
  let budgetController = (function(){
 
+    let Expense = function(id, description, value) {
+        this.id = id
+        this.description = description
+        this.value = value 
+    }
 
+    let Income = function(id, description, value) {
+        this.id = id
+        this.description = description
+        this.value = value 
+    }
+   
  })()
+
+ let Expense = function (id, description, value) {
+     this.id = id
+     this.description = description
+     this.value = value
+ }
 
 
 // UI CONTROLLER 
@@ -57,6 +74,7 @@
     let ctrlAddItem = function() {
         // 1. Get field input data
         let input = UICtrl.getinput()
+
         
         //2. Add the item to budget controller
 
