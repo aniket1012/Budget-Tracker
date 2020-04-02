@@ -8,6 +8,22 @@
 
 // UI CONTROLLER 
  let UIController = (function(){
+     
+    let DOMStrings = {
+        inputType: '.add__type',
+        inputDescription: '.add__description',
+        inputValue: '.add__value'
+    }
+
+    return {
+        getinput: function(){
+            return {
+                type: document.querySelector(DOMStrings.inputType).value, // will be either inc or exp
+                description: document.querySelector(DOMStrings.inputDescription).value,
+                value: document.querySelector(DOMStrings.inputValue).value
+            }
+        }
+    }
 
  })()
 
@@ -19,7 +35,10 @@
 
     let ctrlAddItem = function() {
         // 1. Get field input data
+        let input = UICtrl.getinput()
+        console.log(input);
         
+
 
         //2. Add the item to budget controller
 
@@ -29,7 +48,6 @@
 
         //5. Display the budget on the UI 
 
-        console.log('it Works ');
         
     }
 
