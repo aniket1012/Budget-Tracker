@@ -12,7 +12,8 @@
     let DOMStrings = {
         inputType: '.add__type',
         inputDescription: '.add__description',
-        inputValue: '.add__value'
+        inputValue: '.add__value',
+        inputBtn: '.add__btn'
     }
 
     return {
@@ -22,6 +23,10 @@
                 description: document.querySelector(DOMStrings.inputDescription).value,
                 value: document.querySelector(DOMStrings.inputValue).value
             }
+        },
+
+        getDOMStrings: function(){
+            return DOMStrings
         }
     }
 
@@ -33,13 +38,13 @@
 //GLOBAL APP CONTROLLER
  let controller = (function(budgetCtrl, UICtrl){
 
+    let DOM = UICtrl.getDOMStrings()
+
     let ctrlAddItem = function() {
         // 1. Get field input data
         let input = UICtrl.getinput()
         console.log(input);
         
-
-
         //2. Add the item to budget controller
 
         //3. Add the item to the UI
@@ -51,8 +56,8 @@
         
     }
 
+    document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem)
 
-    document.querySelector('.add__btn').addEventListener('click', ctrlAddItem)
 
     document.addEventListener('keypress', function(e){
         if(e.keyCode === 13 || e.which === 13){
