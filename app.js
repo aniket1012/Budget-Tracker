@@ -14,6 +14,14 @@
         this.value = value 
     }
 
+    let calculateTotal = function(type) {
+        let sum = 0
+        data.allItems[type].forEach(function(cur) {
+            sum += cur.value
+        })
+        data.totals[type] = sum
+    }
+
     let data = {
         allItems: {
             exp: [],
@@ -22,7 +30,9 @@
         totals: {
             exp: 0,
             inc: 0
-        }
+        },
+        budget: 0,
+        percenttage: -1
     }
 
     return {
@@ -48,6 +58,32 @@
 
             //Return the new element we pushed 
             return newItem
+        },
+
+        calculateBudget: function(){
+
+            //caclualte total income and expenses
+            calculateTotal('exp')
+            calculateTotal('inc')
+
+            //Caclualte the budget: income - expenses 
+
+            data.budget = (data.totals.inc - data.totals.exp)
+            //Calculate the percenttage of income we spent
+            if(data.totals.inc > 0) {
+                data.percenttage = Math.round((data.totals.exp / data.totals.inc) * 100)
+            } else {
+                data.percenttage = -1
+            }
+        },
+
+        getBudget: function(){
+            return {
+                budget: data.budget,
+                totalInc: data.totals.inc,
+                totalExp: data.totals.exp,
+                percenttage: data.percenttage
+            }
         },
 
         testing: function(){
@@ -149,10 +185,13 @@
 
     let updateBudget = function(){
         //1. Calculate the budget 
+        budgetCtrl.calculateBudget()
 
         //2. Return the Budget 
-
+        let budget = budgetCtrl.getBudget()
         //3. Display the budget on the UI 
+        console.log(budget);
+        
     }
 
     let ctrlAddItem = function() {
@@ -170,7 +209,7 @@
             UICtrl.clearFields()
             
             //5. Calculate and update budget 
-            // updateBudget()
+            updateBudget()
         }
     }
 
