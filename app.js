@@ -177,6 +177,12 @@
 
         },
 
+        deleteListItem: function(selectorID) {
+            let el = document.getElementById(selectorID)
+            
+            el.parentNode.removeChild(el)
+        },
+
         displayBudget: function(obj){
 
             document.querySelector(DOMStrings.budgetLabel).textContent = obj.budget
@@ -257,13 +263,14 @@
         if (itemID) {
             splitID = itemID.split('-')
             type = splitID[0]
-            ID = splitID[1]
+            ID = parseInt(splitID[1])
 
             //1. Delete Item from array
-            budgetCtrl.deleteItem(type, id)
+            budgetCtrl.deleteItem(type, ID)
             //2. Delete Item from UI
-
+            UICtrl.deleteListItem(itemID)
             //3. Update and show new budget
+            updateBudget()
         }
         
     }
