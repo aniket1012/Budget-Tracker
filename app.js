@@ -154,7 +154,8 @@
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
-        expensesPercLabel: ".item__percentage"
+        expensesPercLabel: ".item__percentage",
+        dateLabel: '.budget__title--month'
 
         
     }
@@ -231,9 +232,11 @@
 
         displayBudget: function(obj){
 
-            document.querySelector(DOMStrings.budgetLabel).textContent = obj.budget
-            document.querySelector(DOMStrings.incomeLabel).textContent = obj.totalInc
-            document.querySelector(DOMStrings.expensesLabel).textContent = obj.totalExp
+            obj.budget > 0 ? type = 'inc' : type = 'exp'
+
+            document.querySelector(DOMStrings.budgetLabel).textContent = formatNumber(obj.budget, type)
+            document.querySelector(DOMStrings.incomeLabel).textContent = formatNumber(obj.totalInc, 'inc')
+            document.querySelector(DOMStrings.expensesLabel).textContent = formatNumber(obj.totalExp, 'exp')
            
 
             if(obj.percentage > 0) {
@@ -261,6 +264,20 @@
                     curr.textContent = '---'
                 }
             })
+
+        },
+
+        displayMonth: function() {
+            let now, year, month, months
+            
+            now = new Date()
+            
+            months = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+            month = now.getMonth()
+
+            year = now.getFullYear() 
+            document.querySelector(DOMStrings.dateLabel).textContent = months[month] + ' ' + year
 
         },
 
@@ -363,6 +380,7 @@
     return {
         init: function(){
             console.log("Application has started");
+            UICtrl.displayMonth()
             UICtrl.displayBudget({
                 budget: 0,
                 totalInc: 0,
@@ -370,6 +388,7 @@
                 percentage: -1
             })
             setupEventListeners()
+
             
         }
     }
