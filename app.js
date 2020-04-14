@@ -9,7 +9,7 @@
         this.percentage = -1
     }
 
-    Expense.prototype.calcPercentage = function(totalIncome) {
+    Expense.prototype.calcPercentages = function(totalIncome) {
         if(totalIncome > 0) {
             this.percentage = Math.round((this.value/totalIncome) *100)
         } else {
@@ -17,7 +17,7 @@
         }
     }
 
-    Expense.prototype.getPercentage = function() {
+    Expense.prototype.getPercentages = function() {
         return this.percentage
     }
 
@@ -105,6 +105,20 @@
             }
         },
 
+        calcPercentages: function() {
+
+            data.allItems.exp.forEach(function(cur) {
+                cur.calcPercentages(data.totals.inc)
+            })
+        },
+
+        getPercentages: function() {
+            let allPercentages = data.allItems.exp.map(function(cur) {
+                return cur.getPercentages()
+            })
+            return allPercentages
+        },
+
         getBudget: function(){
             return {
                 budget: data.budget,
@@ -139,7 +153,8 @@
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
-        container: '.container'
+        container: '.container',
+        expensesPercLabel: ".item__percentage"
 
         
     }
@@ -210,6 +225,27 @@
             }
         },
 
+        displayPercentages: function(percentages) {
+
+            
+           let  fields = document.querySelectorAll(DOMStrings.expensesPercLabel) // node list 
+            
+           let  nodeListForEach = function(list) {
+            for(let i = 0; i < list.length; i++) {
+                callback(list[i], i)
+             }
+            }
+
+            nodeListForEach(fields, function(curr, index) {
+                if (percentages[index] > 0) {
+                    curr.textContent = percentages[index] + '%'
+                } else {
+                    curr.textContent = '---'
+                }
+            })
+
+        },
+
         getDOMStrings: function(){
             return DOMStrings
         }
@@ -252,10 +288,12 @@
     let updatePercentages = function() {
 
         // 1. Calculate percentages 
-
+        budgetCtrl.calcPercentages()
         //2. Read percentages from budget controller 
-
+        let percentages = budgetCtrl.getPercentages()
         //3. Update UI with new percentages 
+        console.log(percentages);
+        
     }
 
     let ctrlAddItem = function() {
