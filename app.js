@@ -111,6 +111,7 @@
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
+        container: '.container'
 
         
     }
@@ -131,11 +132,11 @@
             if(type === 'inc'){
                 element = DOMStrings.incomeContainer
 
-                html = '<div class="item clearfix" id="income-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>'
+                html = '<div class="item clearfix" id="inc-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>'
             } else if (type === 'exp') {
                 element = DOMStrings.expensesContainer
 
-                html = '<div class="item clearfix" id="expense-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>'
+                html = '<div class="item clearfix" id="exp-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>'
             }
             //Replace the placeholder text with actual data
             newHtml = html.replace('%id%', obj.id)
@@ -198,8 +199,9 @@
             if (e.keyCode === 13 || e.which === 13) {
                 ctrlAddItem()
             }
-
         })
+
+        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem)
     }
 
     let updateBudget = function(){
@@ -230,6 +232,25 @@
             //5. Calculate and update budget 
             updateBudget()
         }
+    }
+
+    let ctrlDeleteItem = function(e) {
+        let itemID, splitID, type, ID
+
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id
+
+        if (itemID) {
+            splitID = itemID.split('-')
+            type = splitID[0]
+            ID = splitID[1]
+
+            //1. Delete Item from array
+
+            //2. Delete Item from UI
+
+            //3. Update and show new budget
+        }
+        
     }
 
     return {
