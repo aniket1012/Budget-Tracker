@@ -60,6 +60,21 @@
             return newItem
         },
 
+        deleteItem: function(type, id) {
+            let ids, index
+
+             ids = data.allItems[type].map(function(curr) {
+                return curr.id
+            })
+
+            index = ids.indexOf(id)
+
+            if(index !== -1 ) {
+                data.allItems[type].splice(index, 1)
+            }
+        },
+
+
         calculateBudget: function(){
 
             //caclualte total income and expenses
@@ -245,7 +260,7 @@
             ID = splitID[1]
 
             //1. Delete Item from array
-
+            budgetCtrl.deleteItem(type, id)
             //2. Delete Item from UI
 
             //3. Update and show new budget
