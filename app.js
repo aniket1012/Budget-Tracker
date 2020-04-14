@@ -159,6 +159,24 @@
         
     }
 
+    let formatNumber = function (num, type) {
+        var numSplit, int, dec, type
+
+        num = Math.abs(num)
+        num = num.toFixed(2)
+
+        numSplit = num.split('.')
+
+        int = numSplit[0]
+        if (int.length > 3) {
+            int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, int.length)
+        }
+        dec = numSplit[1]
+
+        return (type === 'exp' ? '-' : "+") + ' ' + int + '.' +  dec
+
+    }
+
     return {
         getinput: function(){
             return {
@@ -184,7 +202,7 @@
             //Replace the placeholder text with actual data
             newHtml = html.replace('%id%', obj.id)
             newHtml = newHtml.replace('%description%', obj.description)
-            newHtml = newHtml.replace('%value%', obj.value)
+            newHtml = newHtml.replace('%value%', formatNumber(obj.value, type))
 
             //Insert the HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml)
@@ -230,7 +248,7 @@
             
            let  fields = document.querySelectorAll(DOMStrings.expensesPercLabel) // node list 
             
-           let  nodeListForEach = function(list) {
+           let nodeListForEach = function(list, callback) {
             for(let i = 0; i < list.length; i++) {
                 callback(list[i], i)
              }
@@ -245,6 +263,7 @@
             })
 
         },
+
 
         getDOMStrings: function(){
             return DOMStrings
@@ -292,7 +311,7 @@
         //2. Read percentages from budget controller 
         let percentages = budgetCtrl.getPercentages()
         //3. Update UI with new percentages 
-        console.log(percentages);
+        UICtrl.displayPercentages(percentages)
         
     }
 
