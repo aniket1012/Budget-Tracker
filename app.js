@@ -178,6 +178,12 @@
 
     }
 
+    let nodeListForEach = function (list, callback) {
+        for (let i = 0; i < list.length; i++) {
+            callback(list[i], i)
+        }
+    }
+
     return {
         getinput: function(){
             return {
@@ -251,11 +257,7 @@
             
            let  fields = document.querySelectorAll(DOMStrings.expensesPercLabel) // node list 
             
-           let nodeListForEach = function(list, callback) {
-            for(let i = 0; i < list.length; i++) {
-                callback(list[i], i)
-             }
-            }
+           
 
             nodeListForEach(fields, function(curr, index) {
                 if (percentages[index] > 0) {
@@ -281,6 +283,21 @@
 
         },
 
+        changedType: function() {
+
+            let fields = document.querySelectorAll(
+                DOMStrings.inputType + ',' + 
+                DOMStrings.inputDescription + ',' +
+                DOMStrings.inputValue
+            )
+
+            nodeListForEach(fields, function(cur) {
+                cur.classList.toggle('red-focus')
+            })
+
+            document.querySelector(DOMStrings.inputBtn).classList.toggle('red')
+
+        },
 
         getDOMStrings: function(){
             return DOMStrings
@@ -308,6 +325,8 @@
         })
 
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem)
+
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType)
     }
 
     let updateBudget = function(){
